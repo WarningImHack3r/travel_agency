@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PingController {
 
     @GetMapping(path = "/api/ping")
-    String ping() {
+    public String ping() {
         return "OK";
     }
 }

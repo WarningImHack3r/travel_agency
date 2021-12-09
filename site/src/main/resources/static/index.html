@@ -7,7 +7,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-<h1>Bienvenu chez Travely™</h1>
+<h1>Bienvenue chez Travely™</h1>
 
 <div>Enregistrez-vous ci-dessous pour découvrir les pays de vos rêves !</div>
 <div class="container mt-5 border border-3 rounded bg-light">
@@ -131,8 +131,8 @@
 </div>
 <script type="text/javascript">
     function submitForm() {
-        var formData = {};
-        var form = document.getElementById("inscription");
+        const formData = {};
+        const form = document.getElementById("inscription");
         Array.prototype.forEach.call(form.elements,
             element => {
                 var propName = element.id || element.name;
