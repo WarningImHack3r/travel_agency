@@ -1,12 +1,12 @@
-package fr.lernejo.travelsite;
+package fr.lernejo.prediction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Launcher {
+public class PredictorEngine {
 
     public static void main(String[] args) {
-        SpringApplication.run(Launcher.class, args);
+        SpringApplication.run(PredictorEngine.class, args);
     }
 }

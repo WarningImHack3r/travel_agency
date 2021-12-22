@@ -1,5 +1,7 @@
 package fr.lernejo.prediction;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
@@ -10,7 +12,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class TemperatureService {
@@ -19,12 +20,10 @@ public class TemperatureService {
     private final Random random = new Random();
 
     TemperatureService() {
-        Stream<String> lines = new ClassPathFileLoader().readLines("countriesTempData.csv");
-
-        temperatureDatasByCountry = lines
-            .skip(1)
-            .map(TemperatureGenerationData::parseCsv)
-            .collect(Collectors.toMap(v -> new CaseInsensitiveString(v.country()), Function.identity()));
+        temperatureDatasByCountry = new ClassPathFileLoader().readLines("countriesTempData.csv")
+                                        .skip(1)
+                                        .map(TemperatureGenerationData::parseCsv)
+                                        .collect(Collectors.toMap(v -> new CaseInsensitiveString(v.country()), Function.identity()));
     }
 
     public double getTemperature(String country) throws UnknownCountryException {
@@ -35,7 +34,7 @@ public class TemperatureService {
         return generateBelievableTemperature(data);
     }
 
-    private double generateBelievableTemperature(TemperatureGenerationData data) {
+    private double generateBelievableTemperature(@NotNull TemperatureGenerationData data) {
         DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.ENGLISH));
         int avg = data.avg();
         double delta = ((double) random.nextInt(data.variance() * 2 * 100)) / 100 - data.variance();
@@ -43,7 +42,8 @@ public class TemperatureService {
     }
 
     record TemperatureGenerationData(String country, int avg, int variance) {
-        public static TemperatureGenerationData parseCsv(String csvLine) {
+        @Contract("_ -> new")
+        public static @NotNull TemperatureGenerationData parseCsv(@NotNull String csvLine) {
             String[] split = csvLine.split(";");
             return new TemperatureGenerationData(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         }
@@ -59,8 +59,7 @@ public class TemperatureService {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            CaseInsensitiveString that = (CaseInsensitiveString) o;
-            return Objects.equals(value.toLowerCase(Locale.ROOT), that.value.toLowerCase(Locale.ROOT));
+            return Objects.equals(value.toLowerCase(Locale.ROOT), ((CaseInsensitiveString) o).value.toLowerCase(Locale.ROOT));
         }
     }
 }
