@@ -135,13 +135,13 @@
         const form = document.getElementById("inscription");
         Array.prototype.forEach.call(form.elements,
             element => {
-                var propName = element.id || element.name;
-                if(propName) {
+                const propName = element.id || element.name;
+                if (propName) {
                     formData[propName] = element.value;
                 }
             }
         );
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open(form.method, form.action, true);
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.onreadystatechange = () => {
