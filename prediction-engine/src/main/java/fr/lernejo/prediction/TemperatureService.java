@@ -35,10 +35,10 @@ public class TemperatureService {
     }
 
     private double generateBelievableTemperature(@NotNull TemperatureGenerationData data) {
-        DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.ENGLISH));
-        int avg = data.avg();
-        double delta = ((double) random.nextInt(data.variance() * 2 * 100)) / 100 - data.variance();
-        return Double.parseDouble(df.format(avg + delta));
+        return Double.parseDouble(
+            new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.ENGLISH))
+                .format(data.avg() + ((double) random.nextInt(data.variance() * 2 * 100)) / 100 - data.variance())
+        );
     }
 
     record TemperatureGenerationData(String country, int avg, int variance) {
