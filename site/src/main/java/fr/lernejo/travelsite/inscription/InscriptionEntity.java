@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 
 @Table("inscription")
 public class InscriptionEntity {
-
     @Id
     public Long id;
 
