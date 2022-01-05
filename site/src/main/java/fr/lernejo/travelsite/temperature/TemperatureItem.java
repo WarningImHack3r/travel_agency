@@ -5,18 +5,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Objects;
 
 public class TemperatureItem {
-    private final String date;
-    private final Number temperature;
+    private String date;
+    private Number temperature;
 
-    TemperatureItem(@DateTimeFormat String date, Number temperature) {
+    public void setDate(@DateTimeFormat String date) {
         Objects.requireNonNull(date);
-        Objects.requireNonNull(temperature);
         this.date = date;
-        this.temperature = temperature;
     }
 
     public String getDate() {
         return date;
+    }
+
+    public void setTemperature(Number temperature) {
+        Objects.requireNonNull(temperature);
+        this.temperature = temperature;
     }
 
     public Number getTemperature() {

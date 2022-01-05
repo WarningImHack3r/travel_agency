@@ -1,5 +1,6 @@
 package fr.lernejo.travelsite.inscription;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class InscriptionController {
         inscriptions.add(inscription);
     }
 
+    @GetMapping("/api/inscription")
     public List<Inscription> getInscriptions() {
         return inscriptions;
     }

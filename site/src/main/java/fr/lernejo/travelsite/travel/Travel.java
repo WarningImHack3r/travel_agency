@@ -3,18 +3,21 @@ package fr.lernejo.travelsite.travel;
 import java.util.Objects;
 
 public class Travel {
-    private final String country;
-    private final Number temperature;
+    private String country;
+    private Number temperature;
 
-    Travel(String country, Number temperature) {
+    public void setCountry(String country) {
         Objects.requireNonNull(country);
-        Objects.requireNonNull(temperature);
         this.country = country;
-        this.temperature = temperature;
     }
 
     public String getCountry() {
         return country;
+    }
+
+    public void setTemperature(Number temperature) {
+        Objects.requireNonNull(temperature);
+        this.temperature = temperature;
     }
 
     public Number getTemperature() {
