@@ -7,8 +7,6 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Inscription {
-    private static Long globalId = 0L;
-    private final Long id;
     private final String userEmail;
     private final String userName;
     private final String userCountry;
@@ -25,18 +23,12 @@ public class Inscription {
         Objects.requireNonNull(userEmail);
         Objects.requireNonNull(userName);
         Objects.requireNonNull(userCountry);
-        Objects.requireNonNull(weatherExpectation);
         Objects.requireNonNull(minimumTemperatureDistance);
-        this.id = globalId++;
         this.userEmail = userEmail;
         this.userName = userName;
         this.userCountry = userCountry.toUpperCase();
         this.weatherExpectation = weatherExpectation;
         this.minimumTemperatureDistance = minimumTemperatureDistance;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getUserEmail() {
