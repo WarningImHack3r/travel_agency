@@ -1,7 +1,5 @@
 package fr.lernejo.prediction;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
@@ -34,7 +32,7 @@ public class TemperatureService {
         return generateBelievableTemperature(data);
     }
 
-    private double generateBelievableTemperature(@NotNull TemperatureGenerationData data) {
+    private double generateBelievableTemperature(TemperatureGenerationData data) {
         return Double.parseDouble(
             new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.ENGLISH))
                 .format(data.avg() + ((double) random.nextInt(data.variance() * 2 * 100)) / 100 - data.variance())
@@ -42,8 +40,7 @@ public class TemperatureService {
     }
 
     record TemperatureGenerationData(String country, int avg, int variance) {
-        @Contract("_ -> new")
-        public static @NotNull TemperatureGenerationData parseCsv(@NotNull String csvLine) {
+        public static  TemperatureGenerationData parseCsv(String csvLine) {
             String[] split = csvLine.split(";");
             return new TemperatureGenerationData(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         }

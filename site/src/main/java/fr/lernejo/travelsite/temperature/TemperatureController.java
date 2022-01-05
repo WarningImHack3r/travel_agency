@@ -14,14 +14,14 @@ import java.util.stream.StreamSupport;
 @RestController
 public class TemperatureController {
 
-    private @NotNull Spliterator<TemperatureEntity> fetchResultsFromBackend() {
+    private  Spliterator<Temperature> fetchResultsFromBackend() {
         return null;
     }
 
     @GetMapping("/api/temperature")
-    public @NotNull ResponseEntity<Iterable<TemperatureEntity>> getTemperatures(@RequestParam String country) {
-        Stream<TemperatureEntity> stream = StreamSupport.stream(fetchResultsFromBackend(), false)
-            .filter(e -> e.country.equals(country));
+    public  ResponseEntity<Iterable<Temperature>> getTemperatures(@RequestParam String country) {
+        Stream<Temperature> stream = StreamSupport.stream(fetchResultsFromBackend(), false)
+            .filter(e -> e.getCountry().equals(country));
         if (stream.findAny().isEmpty())
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         return new ResponseEntity<>(stream::iterator, HttpStatus.OK);

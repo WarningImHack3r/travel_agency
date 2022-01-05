@@ -5,11 +5,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
-public record TravelController(TravelRepository repository) {
+public class TravelController {
+    private final ArrayList<Travel> travels;
+
+    TravelController() {
+        travels = new ArrayList<>();
+    }
 
     @GetMapping("/api/travels")
-    public @NotNull Iterable<TravelEntity> getTravels(@RequestParam String userName) {
-        return repository.findAll();
+    public  Iterable<Travel> getTravels(@RequestParam String userName) {
+        return travels;
     }
 }
