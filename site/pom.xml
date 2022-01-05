@@ -74,10 +74,6 @@
                 </executions>
                 <configuration>
                     <jvmTarget>${java.version}</jvmTarget>
-                    <sourceDirs>
-                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                        <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                    </sourceDirs>
                 </configuration>
             </plugin>
             <plugin>

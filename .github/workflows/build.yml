@@ -23,4 +23,3 @@ jobs:
                   echo $JAVA_HOME
             - run: ./mvnw verify
             - uses: codecov/codecov-action@v1
-
