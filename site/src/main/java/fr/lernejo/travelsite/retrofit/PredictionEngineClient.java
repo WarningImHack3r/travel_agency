@@ -1,11 +1,11 @@
-package fr.lernejo.travelsite.retrofit
+package fr.lernejo.travelsite.retrofit;
 
-import retrofit2.Call
-import retrofit2.http.GET
+import retrofit2.Call;
+import retrofit2.http.GET;
 
-interface PredictionEngineClient {
+public interface PredictionEngineClient {
     @GET("api/ping")
-    fun getPing(): Call<String> // data class if custom type
+    Call<String> getPing(); // data class if custom type
 
     // TODO: Remove before push
     // getPing().enqueue(object: Callback<Type> {
