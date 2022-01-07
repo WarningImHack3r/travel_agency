@@ -12,7 +12,7 @@ import java.util.List;
 public class InscriptionController {
     private final ArrayList<Inscription> inscriptions;
 
-    InscriptionController() {
+    public InscriptionController() {
         inscriptions = new ArrayList<>();
     }
 

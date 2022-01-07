@@ -1,28 +1,10 @@
 package fr.lernejo.travelsite.temperature;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.apache.commons.validator.routines.DateValidator;
 
-import java.util.Objects;
-
-public class TemperatureItem {
-    private String date;
-    private Number temperature;
-
-    public void setDate(@DateTimeFormat String date) {
-        Objects.requireNonNull(date);
-        this.date = date;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setTemperature(Number temperature) {
-        Objects.requireNonNull(temperature);
-        this.temperature = temperature;
-    }
-
-    public Number getTemperature() {
-        return temperature;
+public record TemperatureItem(String date, Number temperature) {
+    public TemperatureItem {
+        if (!DateValidator.getInstance().isValid(date))
+            throw new IllegalArgumentException("date field doesn't seem to be a valid date");
     }
 }
