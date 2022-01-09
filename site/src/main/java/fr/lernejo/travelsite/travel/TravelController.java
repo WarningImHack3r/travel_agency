@@ -2,13 +2,10 @@ package fr.lernejo.travelsite.travel;
 
 import fr.lernejo.travelsite.inscription.Inscription;
 import fr.lernejo.travelsite.inscription.WeatherExpectations;
-import fr.lernejo.travelsite.storage.Storage;
 import fr.lernejo.travelsite.temperature.TemperatureService;
 import fr.lernejo.travelsite.temperature.data.TemperatureItem;
 import fr.lernejo.travelsite.temperature.data.TemperatureResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +14,19 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-public record TravelController(TemperatureService service) {
+public class TravelController {
+    private final TemperatureService service;
+    private final List<Inscription> inscriptions;
+
+    public TravelController(TemperatureService service) {
+        this.service = service;
+        inscriptions = new ArrayList<>();
+    }
+
+    @PostMapping("/api/inscription")
+    public void postInscription(@RequestBody Inscription inscription) {
+        inscriptions.add(inscription);
+    }
 
     private double temperatureItemsToDouble(List<TemperatureItem> items) {
         return items.stream().mapToDouble(item -> item.temperature().doubleValue()).average().orElse(Double.NaN);
@@ -43,7 +52,7 @@ public record TravelController(TemperatureService service) {
 
     @GetMapping("/api/travels")
     public Iterable<Destination> getTravels(@RequestParam String userName) {
-        Inscription relatedInscription = Storage.getInscriptions()
+        Inscription relatedInscription = inscriptions
             .stream()
             .filter(inscription -> inscription.userName().equals(userName))
             .reduce((first, second) -> second) // find last occurrence
