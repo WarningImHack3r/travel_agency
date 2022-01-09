@@ -14,18 +14,18 @@ import java.util.stream.Collectors;
 @Component
 public class TemperatureService {
 
-    private final Map<CaseInsensitiveString, TemperatureGenerationData> temperatureDatasByCountry;
+    private final Map<CaseInsensitiveString, TemperatureGenerationData> temperatureDataByCountry;
     private final Random random = new Random();
 
     TemperatureService() {
-        temperatureDatasByCountry = new ClassPathFileLoader().readLines("countriesTempData.csv")
+        temperatureDataByCountry = new ClassPathFileLoader().readLines("countriesTempData.csv")
                                         .skip(1)
                                         .map(TemperatureGenerationData::parseCsv)
                                         .collect(Collectors.toMap(v -> new CaseInsensitiveString(v.country()), Function.identity()));
     }
 
     public double getTemperature(String country) throws UnknownCountryException {
-        TemperatureGenerationData data = temperatureDatasByCountry.get(new CaseInsensitiveString(country));
+        TemperatureGenerationData data = temperatureDataByCountry.get(new CaseInsensitiveString(country));
         if (data == null) {
             throw new UnknownCountryException(country);
         }
@@ -40,7 +40,7 @@ public class TemperatureService {
     }
 
     record TemperatureGenerationData(String country, int avg, int variance) {
-        public static  TemperatureGenerationData parseCsv(String csvLine) {
+        public static TemperatureGenerationData parseCsv(String csvLine) {
             String[] split = csvLine.split(";");
             return new TemperatureGenerationData(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         }
