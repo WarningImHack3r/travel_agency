@@ -52,8 +52,7 @@ public class TravelController {
 
     @GetMapping("/api/travels")
     public Iterable<Destination> getTravels(@RequestParam String userName) {
-        Inscription relatedInscription = inscriptions
-            .stream()
+        Inscription relatedInscription = inscriptions.stream()
             .filter(inscription -> inscription.userName().equals(userName))
             .reduce((first, second) -> second) // find last occurrence
             .orElseThrow();
