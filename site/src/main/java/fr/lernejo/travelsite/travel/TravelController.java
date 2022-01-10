@@ -33,16 +33,16 @@ public class TravelController {
     }
 
     private Iterable<Destination> mostRelevantDestinations(String country, WeatherExpectations colderOrWarmer, Integer of) {
-        List<TemperatureResult> results = new ArrayList<>();
-        // Loop countries.txt
+        String fileContent = null;
         try {
-            new String(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("countries.txt")).readAllBytes(), StandardCharsets.UTF_8)
-                .lines().forEach(c -> results.add(service.getTemperatures(c))); // Fetch /api/temperature for all
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Calculate
-        double currentCountryTemperature = temperatureItemsToDouble(results.stream().filter(c -> c.country().equals(country)).findFirst().orElseThrow().temperatureItems());
+            fileContent = new String(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("countries.txt")).readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) { e.printStackTrace(); }
+        assert fileContent != null;
+        List<TemperatureResult> results = fileContent.lines()
+            .filter(Objects::nonNull)
+            .map(service::getTemperatures)
+            .filter(Objects::nonNull).toList();
+        double currentCountryTemperature = results.stream().filter(c -> c.country().equals(country)).findFirst().map(temperatureResult -> temperatureItemsToDouble(temperatureResult.temperatureItems())).orElse(0.0);
         return () -> results.stream().filter(result -> {
             double average = temperatureItemsToDouble(result.temperatureItems());
             return (colderOrWarmer.equals(WeatherExpectations.COLDER) && currentCountryTemperature - of > average) ||
