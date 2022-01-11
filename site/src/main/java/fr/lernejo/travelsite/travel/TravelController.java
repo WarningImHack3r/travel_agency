@@ -36,17 +36,17 @@ public class TravelController {
         String fileContent = null;
         try {
             fileContent = new String(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("countries.txt")).readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assert fileContent != null;
-        List<TemperatureResult> results = fileContent.lines()
-            .filter(Objects::nonNull)
-            .map(service::getTemperatures)
-            .filter(Objects::nonNull).toList();
-        double currentCountryTemperature = results.stream().filter(c -> c.country().equals(country)).findFirst().map(temperatureResult -> temperatureItemsToDouble(temperatureResult.temperatureItems())).orElse(0.0);
-        return () -> results.stream().filter(result -> {
+        TemperatureResult currentResult = service.getTemperatures(country);
+        double currentCountryTemperature = currentResult != null ? temperatureItemsToDouble(currentResult.temperatureItems()) : 0.0;
+        String finalFileContent = fileContent;
+        return () -> finalFileContent.lines().filter(Objects::nonNull).map(service::getTemperatures).filter(Objects::nonNull).filter(result -> {
             double average = temperatureItemsToDouble(result.temperatureItems());
-            return (colderOrWarmer.equals(WeatherExpectations.COLDER) && currentCountryTemperature - of > average) ||
-                       (colderOrWarmer.equals(WeatherExpectations.WARMER) && currentCountryTemperature + of < average);
+            return (colderOrWarmer.equals(WeatherExpectations.COLDER) && currentCountryTemperature - of >= average) ||
+                       (colderOrWarmer.equals(WeatherExpectations.WARMER) && currentCountryTemperature + of <= average);
         }).map(e -> new Destination(e.country(), temperatureItemsToDouble(e.temperatureItems()))).iterator();
     }
 
