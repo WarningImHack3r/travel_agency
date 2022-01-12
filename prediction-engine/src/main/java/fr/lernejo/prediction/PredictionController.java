@@ -1,7 +1,7 @@
 package fr.lernejo.prediction;
 
-import fr.lernejo.travelsite.temperature.data.TemperatureItem;
-import fr.lernejo.travelsite.temperature.data.TemperatureResult;
+import fr.lernejo.prediction.data.TemperatureItem;
+import fr.lernejo.prediction.data.TemperatureResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
